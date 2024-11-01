@@ -1,0 +1,9 @@
+:root {
+  /* MAIN COLORS */
+
+  /* TEXT COLORS */
+  --text-heading: #d4b777;
+
+  /* SHADOWS */
+  --shadow-heading: 0.25rem 0.25rem 0.5rem rgba(173, 146, 85, 0.5);
+}
