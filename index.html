@@ -9,13 +9,16 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
       rel="stylesheet"
     />
 
     <!-- CSS -->
     <link rel="stylesheet" href="src/css/reset.css" />
     <link rel="stylesheet" href="src/css/styles.css" />
+    <link rel="stylesheet" href="src/css/menu.css" />
+    <link rel="stylesheet" href="src/css/description.css" />
+    <link rel="stylesheet" href="src/css/game.css" />
     <link rel="stylesheet" href="src/css/variables.css" />
 
     <!-- Scripts -->
@@ -28,25 +31,40 @@
 
     <main>
       <form>
-        <input type="text" name="playerName" class="start__playerName" />
+        <input
+          placeholder="ADD MEG A NEVED!"
+          type="text"
+          name="playerName"
+          class="menu__playerName"
+        />
         <section class="main-box">
-          <article class="start__difficulty-box">
-            <input type="radio" name="difficulty" id="easy" />
-            <label for="easy">Könnyű</label>
+          <article class="menu__difficulty-box">
+            <h2>Állítsd be a nehézséget!</h2>
 
-            <input type="radio" name="difficulty" id="hard" />
-            <label for="hard">Nehéz</label>
+            <div class="menu__radio-box">
+              <div class="menu__radio-box--item">
+                <input type="radio" name="difficulty" id="easy" />
+                <label for="easy" class="easy-btn">5x5</label>
+                <label for="easy" class="label">Könnyű</label>
+              </div>
+
+              <div class="menu__radio-box--item">
+                <input type="radio" name="difficulty" id="hard" />
+                <label for="hard" class="hard-btn">7x7</label>
+                <label for="hard" class="label">Nehéz</label>
+              </div>
+            </div>
           </article>
 
-          <article class="start__btn-box">
+          <article class="menu__btn-box">
             <button class="description">Leírás</button>
-            <button class="start" disabled>Játék kezdése</button>
+            <button class="start" disabled>Játék indítása</button>
           </article>
-
-          <img src="src/pics/main-rail.png" alt="Vasúti sín" class="rail-img" />
         </section>
       </form>
     </main>
+
+    <img src="src/pics/main-rail.png" alt="Vasúti sín" class="rail-img" />
 
     <footer>
       <p>Nagy Tamás Albert &dash; Z8TLQP</p>

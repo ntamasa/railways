@@ -1,9 +1,21 @@
 :root {
   /* MAIN COLORS */
+  --color-main: #f8faf0;
+  --color-primary: #d4b777;
+  --color-primary-dark: #ad9255;
+  --color-secondary: #b4bfa3;
+  --color-secondary-light: #eaefd3;
 
   /* TEXT COLORS */
-  --text-heading: #d4b777;
+  --color-dark: #505168;
+  --color-dark-2: #28233a;
+  --color-light: #fff;
 
   /* SHADOWS */
   --shadow-heading: 0.25rem 0.25rem 0.5rem rgba(173, 146, 85, 0.5);
+
+  /* ADDITIONALS */
+  --text-outline: 1px -1px 0 var(--color-primary-dark),
+    1px -1px 0 var(--color-primary-dark), -1px 1px 0 var(--color-primary-dark),
+    1px 1px 0 var(--color-primary-dark);
 }
