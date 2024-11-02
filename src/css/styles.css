@@ -1,0 +1,37 @@
+/* ------------- GENERAL STYLES -------------- */
+
+/* -------------- PAGE STRUCTURE -------------- */
+body {
+  display: grid;
+  grid-template-columns: 80vw;
+  grid-template-rows: max-content minmax(15rem, 2fr) 1fr;
+  row-gap: 3.2rem;
+
+  justify-content: space-around;
+
+  background-color: var(--color-main);
+}
+
+/* -------------- FOOTER -------------- */
+.footer {
+  color: var(--color-dark);
+  font-weight: 300;
+  font-size: 1.4rem;
+
+  text-align: center;
+  align-self: flex-end;
+  margin-bottom: 0.6rem;
+}
+
+.author {
+}
+
+.copyright {
+}
+
+/* -------------- MEDIA QUERIES -------------- */
+@media screen and (min-width: 90em) /* 1440px */ {
+  body {
+    grid-template-columns: 60vw;
+  }
+}
