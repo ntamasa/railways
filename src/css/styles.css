@@ -9,7 +9,20 @@ body {
 
   justify-content: space-around;
 
-  background-color: var(--color-main);
+  background-image: linear-gradient(
+    to bottom right,
+    var(--color-main),
+    var(--color-primary-light)
+  );
+}
+
+body:has(main[data-show="description"]) {
+  grid-template-rows: 0.55fr minmax(15rem, 2fr) 0.7fr;
+}
+
+.back-btn {
+  opacity: 0;
+  visibility: none;
 }
 
 /* -------------- FOOTER -------------- */
@@ -21,12 +34,6 @@ body {
   text-align: center;
   align-self: flex-end;
   margin-bottom: 0.6rem;
-}
-
-.author {
-}
-
-.copyright {
 }
 
 /* -------------- MEDIA QUERIES -------------- */

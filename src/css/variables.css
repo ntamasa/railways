@@ -2,6 +2,8 @@
   /* MAIN COLORS */
   --color-main: #f8faf0;
   --color-primary: #d4b777;
+  /* --color-primary-light: #dcd19e; */
+  --color-primary-light: rgba(220, 209, 158, 0.5);
   --color-primary-dark: #ad9255;
   --color-secondary: #b4bfa3;
   --color-secondary-light: #eaefd3;
@@ -13,6 +15,10 @@
 
   /* SHADOWS */
   --shadow-heading: 0.25rem 0.25rem 0.5rem rgba(173, 146, 85, 0.5);
+  --shadow-subheading: 0.15rem 0.15rem 0.5rem rgba(173, 146, 85, 0.25);
+  --shadow-img: 0.5rem 0.5rem 1rem rgba(212, 183, 119, 0.2);
+  --shadow-btn: 0.5rem 0.5rem 1rem rgba(180, 191, 163, 0.5);
+  --shadow-btn-dark: 0.5rem 0.5rem 1rem rgba(40, 35, 58, 0.25);
 
   /* ADDITIONALS */
   --text-outline: 1px -1px 0 var(--color-primary-dark),
