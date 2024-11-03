@@ -25,10 +25,29 @@ body:has(main[data-show="description"]) {
   visibility: none;
 }
 
+body[data-type="column"] {
+  width: 100vw;
+  padding: 3.8rem 2.4rem;
+
+  grid-template-columns: 4fr 6fr;
+  grid-template-rows: repeat(5, 1fr);
+
+  gap: 0 3.2rem;
+}
+
 /* -------------- HEADER --------------*/
 header {
   height: inherit;
   padding-top: 3.8rem;
+}
+
+body[data-type="column"] header {
+  grid-column: 1 / 2;
+  grid-row: 1 / 4; /* span from 1st to 3rd column */
+}
+
+body[data-type="column"] header h1 {
+  font-size: 6.4rem;
 }
 
 h1 {
@@ -51,6 +70,11 @@ h1 {
   text-align: center;
   align-self: flex-end;
   margin-bottom: 0.6rem;
+}
+
+body[data-type="column"] footer {
+  grid-column: 1 / -1;
+  grid-row: 5 / -1;
 }
 
 /* -------------- MEDIA QUERIES -------------- */

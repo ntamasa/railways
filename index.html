@@ -30,9 +30,22 @@
     <!-- Scripts -->
     <script type="module" src="src/js/controller.js"></script>
   </head>
-  <body>
-    <header data-pos="side">
+  <body data-type="column">
+    <header>
       <h1>Railways</h1>
+      <div class="game-info">
+        <div class="info-item">
+          <h2 class="info-item__heading">Útvonaltervező:</h2>
+          <p class="info-item__content">XYZ</p>
+        </div>
+
+        <hr />
+
+        <div class="info-item">
+          <h2 class="info-item__heading">Eltelt idő:</h2>
+          <p class="info-item__content">00:00</p>
+        </div>
+      </div>
     </header>
 
     <main data-show="game">

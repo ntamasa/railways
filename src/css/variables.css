@@ -24,4 +24,8 @@
   --text-outline: 1px -1px 0 var(--color-primary-dark),
     1px -1px 0 var(--color-primary-dark), -1px 1px 0 var(--color-primary-dark),
     1px 1px 0 var(--color-primary-dark);
+
+  --text-outline-light: 1px -1px 0 var(--color-primary),
+    1px -1px 0 var(--color-primary), -1px 1px 0 var(--color-primary),
+    1px 1px 0 var(--color-primary);
 }
