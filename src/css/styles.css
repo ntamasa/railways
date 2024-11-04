@@ -22,7 +22,7 @@ body:has(main[data-show="description"]) {
 
 .back-btn {
   opacity: 0;
-  visibility: none;
+  visibility: hidden;
 }
 
 body[data-type="column"] {

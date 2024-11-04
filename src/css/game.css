@@ -43,3 +43,26 @@ hr {
 
   margin: 2.6rem 0;
 }
+
+/* ------------- GAME BOARD -------------- */
+body[data-type="column"] main {
+  grid-column: 2 / -1;
+  grid-row: 1 / -1;
+}
+
+.game-board {
+  width: 100%;
+  aspect-ratio: 1;
+
+  outline: 10px solid var(--color-primary-dark-2);
+  border-radius: 15px;
+  border-collapse: collapse;
+}
+
+.game-board tr {
+}
+
+.game-board tr td {
+  border: 1px solid var(--color-primary);
+  background-image: url("../pics/tiles/empty.png");
+}
