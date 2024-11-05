@@ -17,7 +17,7 @@ body {
 }
 
 body:has(main[data-show="description"]) {
-  grid-template-rows: 0.55fr minmax(15rem, 2fr) 0.7fr;
+  grid-template-rows: 0.55fr minmax(15rem, 2fr) 0.6fr;
 }
 
 .back-btn {
