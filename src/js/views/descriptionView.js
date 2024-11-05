@@ -30,8 +30,7 @@ class DescriptionView extends View {
     handler(newPage);
   }
 
-  // TODO add back button to menu page
-  _generateMarkup(result) {
+  _generateMarkup() {
     return `<aside class="description-box">
         <article class="intro">
           <h2>Bemutatás</h2>

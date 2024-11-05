@@ -32,7 +32,15 @@ export default class View {
 
   renderSpinner() {}
 
-  renderError(message = this._errorMessage) {}
+  // TODO error model markup and styling
+  renderError(message = this._errorMessage) {
+    const markup = `<div class="error-model">
+            <p class="error-text">${message}</p>
+            <button class="error-btn">OK</button>
+          </article>`;
+
+    this._parentElement.insertAdjacentHTML("afterbegin", markup);
+  }
 
   renderMessage() {}
 }

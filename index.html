@@ -30,7 +30,8 @@
     <!-- Scripts -->
     <script type="module" src="src/js/controller.js"></script>
   </head>
-  <body data-type="column">
+  <!-- <body data-type="column"> -->
+  <body data-type="normal">
     <header>
       <h1>Railways</h1>
       <div class="game-info">
@@ -48,111 +49,7 @@
       </div>
     </header>
 
-    <main data-show="game">
-      <!-- <table class="game-board"> -->
-      <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-      <!-- </table> -->
-
-      <table class="game-board">
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-      </table>
-
+    <main data-show="menu">
       <form>
         <input
           placeholder="ADD MEG A NEVED!"
@@ -166,13 +63,27 @@
 
             <div class="menu__radio-box">
               <div class="menu__radio-box--item">
-                <input type="radio" name="difficulty" id="easy" />
+                <input
+                  type="radio"
+                  name="difficulty"
+                  id="easy"
+                  class="difficulty-item"
+                  value="easy"
+                  checked
+                />
                 <label for="easy" class="easy-btn">5x5</label>
                 <label for="easy" class="label">Könnyű</label>
               </div>
 
               <div class="menu__radio-box--item">
-                <input type="radio" name="difficulty" id="hard" />
+                <input
+                  type="radio"
+                  name="difficulty"
+                  id="hard"
+                  class="difficulty-item"
+                  value="hard"
+                  required
+                />
                 <label for="hard" class="hard-btn">7x7</label>
                 <label for="hard" class="label">Nehéz</label>
               </div>
@@ -181,7 +92,7 @@
 
           <article class="menu__btn-box">
             <button class="description">Leírás</button>
-            <button class="start" disabled>Játék indítása</button>
+            <button class="start">Játék indítása</button>
           </article>
         </section>
       </form>
