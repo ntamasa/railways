@@ -17,7 +17,7 @@ export default class View {
     const markup = this._generateMarkup();
 
     // if (!render) return markup;
-    if (!render) {
+    if (render) {
       this._parentElement.insertAdjacentHTML("afterbegin", markup);
       return;
     }
@@ -28,7 +28,9 @@ export default class View {
 
   update(data) {}
 
-  _clear() {}
+  _clear() {
+    this._parentElement.innerHTML = "";
+  }
 
   renderSpinner() {}
 

@@ -3,8 +3,8 @@ import descriptionView from "./views/descriptionView.js";
 
 const controlDescription = function (newPage) {
   model.updatePage(newPage);
-
-  descriptionView.render(model.state.page);
+  console.log(model.state.page);
+  descriptionView.render(model.state.page, true);
 };
 
 const init = function () {

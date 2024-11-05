@@ -3,31 +3,25 @@ import View from "./view.js";
 class DescriptionView extends View {
   _parentElement = document.querySelector("main");
 
-  _btnOpen = document.querySelector(".description");
-  _btnClose = document.querySelector(".back-btn");
+  _btnArr = document.querySelectorAll(".move-btn");
 
   constructor() {
     super();
-    this._addHandlerShow();
-    this._addHandlerHide();
-  }
-
-  _addHandlerShow() {
-    this._btnOpen.addEventListener("click", (e) => {
-      e.preventDefault();
-      this._parentElement.dataset.show = "description";
-    });
-  }
-
-  _addHandlerHide() {
-    this._btnClose.addEventListener("click", () => {
-      this._parentElement.dataset.show = "menu";
-    });
   }
 
   addHandlerRender(handler) {
-    const newPage = this._parentElement.dataset.show;
-    handler(newPage);
+    this._btnArr.forEach((btn) =>
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        const currShown = this._parentElement.dataset.show;
+
+        this._parentElement.dataset.show =
+          currShown === "description" ? "menu" : "description";
+        const newPage = this._parentElement.dataset.show;
+        handler(newPage);
+      })
+    );
   }
 
   // TODO add back button to menu page
@@ -112,7 +106,8 @@ class DescriptionView extends View {
             </div>
           </div>
         </article>
-      </aside>`;
+      </aside>
+      `;
   }
 }
 
