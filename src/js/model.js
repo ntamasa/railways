@@ -6,7 +6,7 @@ export const state = {
   difficulty: "easy",
   level: {},
   grid: [[]],
-  timeElapsed: 0,
+  timeElapsed: 1,
 };
 
 const levels = {
@@ -81,4 +81,11 @@ const createLevelObject = function (difficulty) {
 
 export const updatePage = function (newPage) {
   state.page = newPage;
+};
+
+export const updateTimer = async function () {
+  setInterval(async () => {
+    state.timeElapsed++;
+    console.log(state);
+  }, 1000);
 };

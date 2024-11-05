@@ -1,6 +1,7 @@
 import * as model from "./model.js";
 import descriptionView from "./views/descriptionView.js";
 import gameView from "./views/gameView.js";
+import statsView from "./views/statsView.js";
 
 const controlDescription = function (newPage) {
   model.updatePage(newPage);
@@ -22,6 +23,11 @@ const controlGame = function (newPage) {
     console.log(model.state);
 
     gameView.render(model.state);
+    statsView.render(model.state, true);
+
+    // TODO show state update of timer in the DOM
+    model.updateTimer();
+    statsView.render(model.state);
   } catch (err) {
     console.log(err.message);
     gameView.renderError();
@@ -29,12 +35,14 @@ const controlGame = function (newPage) {
 };
 
 const controlTimer = function () {
-  // model.updateTimer();
+  model.updateTimer();
+  statsView.render(model.state, true);
+  console.log(model.state.timeElapsed);
 };
 
 const init = function () {
   descriptionView.addHandlerRender(controlDescription);
   gameView.addHandlerRender(controlGame);
-  // gameView.addHandlerUpdateTimer(controlTimer);
+  // statsView.addHandlerUpdateTimer(controlTimer);
 };
 init();
