@@ -10,33 +10,33 @@ const controlDescription = function (newPage) {
 };
 
 const controlStart = function (newPage) {
-  // try {
-  // 1, Get data from input fields
-  // could throw an error
-  const name = gameView.getName();
-  const difficulty = gameView.getDifficulty();
-  console.log(`name: ${name}`);
-  console.log(`difficulty: ${difficulty}`);
+  try {
+    // 1, Get data from input fields
 
-  // 2, Load all data to state object
-  model.loadData(name, difficulty);
-  model.updatePage(newPage);
+    const name = gameView.getName(); // could throw an error
+    const difficulty = gameView.getDifficulty();
+    console.log(`name: ${name}`);
+    console.log(`difficulty: ${difficulty}`);
 
-  console.log(model.state);
+    // 2, Load all data to state object
+    model.loadData(name, difficulty);
+    model.updatePage(newPage);
 
-  // 3, Render game page
-  gameView.render(model.state.grid);
-  statsView.render(model.state);
+    console.log(model.state);
 
-  // 4, Upadte and render timer update
-  setInterval(async () => {
-    model.updateTimer();
+    // 3, Render game page
+    gameView.render(model.state.grid);
     statsView.render(model.state);
-  }, 1000);
-  // } catch (err) {
-  //   console.log(err.message);
-  //   gameView.renderError();
-  // }
+
+    // 4, Upadte and render timer update
+    setInterval(async () => {
+      model.updateTimer();
+      statsView.render(model.state);
+    }, 1000);
+  } catch (err) {
+    console.log(err.message);
+    gameView.renderError();
+  }
 };
 
 // const controlAddTile = function () {};
