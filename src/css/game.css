@@ -63,11 +63,12 @@ hr {
 /* ------------- GAME BOARD -------------- */
 body[data-type="column"] main {
   grid-column: 2 / -1;
-  grid-row: 1 / -1;
+  grid-row: 1 / -2;
 }
 
 .game-board {
   width: 100%;
+  max-width: 100%;
   aspect-ratio: 1;
 
   outline: 10px solid var(--color-primary-dark-2);
