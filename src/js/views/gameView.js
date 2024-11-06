@@ -14,11 +14,11 @@ class GameView extends View {
               ${row
                 .map(
                   (col) =>
-                    `<td class="tile-item"><img src="./src/pics/tiles/${
-                      col.type
-                    }.png" ${
-                      col?.roataion
-                        ? 'style="transform: rotate(${col?.rotation}deg)"'
+                    `<td class="tile-item" ${
+                      row.length === 7 ? 'style="max-width: 11rem"' : ""
+                    }><img src="./src/pics/tiles/${col.type}.png" ${
+                      col?.rotation
+                        ? `style="transform: rotate(${col?.rotation}deg)"`
                         : 0
                     } /></td>`
                 )
