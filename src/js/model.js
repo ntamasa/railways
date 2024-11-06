@@ -84,8 +84,5 @@ export const updatePage = function (newPage) {
 };
 
 export const updateTimer = async function () {
-  setInterval(async () => {
-    state.timeElapsed++;
-    console.log(state);
-  }, 1000);
+  state.timeElapsed++;
 };

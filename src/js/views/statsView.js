@@ -3,10 +3,6 @@ import View from "./view.js";
 class StatsView extends View {
   _parentElement = document.querySelector("header");
 
-  addHandlerUpdateTimer(handler) {
-    handler();
-  }
-
   _generateMarkup() {
     const { playerName, timeElapsed } = this._data;
 
