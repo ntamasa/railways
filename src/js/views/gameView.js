@@ -7,100 +7,26 @@ class GameView extends View {
   _btn = document.querySelector(".start");
 
   _generateMarkup() {
-    return this._data.difficutly === "easy"
-      ? `<table class="game-board">
-<tr>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
-</tr>
-<tr>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
-</tr>
-<tr>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
-</tr>
-<tr>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
-</tr>
-<tr>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
-</tr>
-      </table>`
-      : `<table class="game-board">
-<tr>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
-</tr>
-<tr>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
-</tr>
-<tr>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
-</tr>
-<tr>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
-</tr>
-<tr>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
-</tr>
-<tr>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
-</tr>
-          </table>`;
+    return `<table class="game-board">
+        ${this._data
+          .map(
+            (row) => `<tr>
+              ${row
+                .map(
+                  (col) =>
+                    `<td class="tile-item"><img src="./src/pics/tiles/${
+                      col.type
+                    }.png" ${
+                      col?.roataion
+                        ? 'style="transform: rotate(${col?.rotation}deg)"'
+                        : 0
+                    } /></td>`
+                )
+                .join("")}
+            </tr>`
+          )
+          .join("")}
+      </table>`;
   }
 
   getName() {

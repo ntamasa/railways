@@ -26,11 +26,10 @@ body:has(main[data-show="description"]) {
 }
 
 body[data-type="column"] {
-  width: 100vw;
   padding: 3.8rem 2.4rem;
 
   grid-template-columns: 4fr 6fr;
-  grid-template-rows: repeat(5, 1fr);
+  grid-template-rows: repeat(4, 1fr) max-content;
 
   gap: 0 3.2rem;
 }

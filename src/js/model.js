@@ -12,57 +12,153 @@ export const state = {
 const levels = {
   easy: [
     {
-      // db x y x y ...
-      oasis: [3, 0, 4, 1, 4, 3, 3],
-      bridge: [2, 1, 3, 2, 0],
-      mountain: [3, 0, 1, 2, 2, 4, 2],
+      // db {x, y, rotation} ...
+      oasis: [3, { x: 0, y: 4 }, { x: 1, y: 4 }, { x: 3, y: 3 }],
+      bridge: [2, { x: 1, y: 3, rotation: 0 }, { x: 2, y: 0, rotation: 0 }],
+      mountain: [
+        3,
+        { x: 0, y: 1, rotation: 270 },
+        { x: 2, y: 2, rotation: 180 },
+        { x: 4, y: 2, rotation: 90 },
+      ],
     },
     {
-      oasis: [3, 0, 0, 2, 1, 3, 3],
-      bridge: [2, 0, 2, 2, 0],
-      mountain: [3, 1, 1, 1, 4, 2, 2],
+      oasis: [3, { x: 0, y: 0 }, { x: 2, y: 1 }, { x: 3, y: 3 }],
+      bridge: [2, { x: 0, y: 2, rotation: 90 }, { x: 2, y: 0, rotation: 0 }],
+      mountain: [
+        3,
+        { x: 1, y: 1, rotation: 180 },
+        { x: 1, y: 4, rotation: 180 },
+        { x: 2, y: 2, rotation: 90 },
+      ],
     },
     {
-      oasis: [1, 3, 1],
-      bridge: [4, 0, 2, 1, 4, 2, 2, 4, 1],
-      mountain: [2, 3, 1, 4, 4],
+      oasis: [1, { x: 3, y: 1 }],
+      bridge: [
+        4,
+        { x: 0, y: 2, rotation: 90 },
+        { x: 1, y: 4, rotation: 0 },
+        { x: 2, y: 2, rotation: 0 },
+        { x: 4, y: 1, rotation: 90 },
+      ],
+      mountain: [
+        2,
+        { x: 3, y: 1, rotation: 180 },
+        { x: 4, y: 4, rotation: 180 },
+      ],
     },
     {
-      oasis: [1, 4, 2],
-      bridge: [2, 0, 3, 2, 0],
-      mountain: [3, 2, 2, 2, 4, 4, 3],
+      oasis: [1, { x: 4, y: 2 }],
+      bridge: [2, { x: 0, y: 3, rotation: 90 }, { x: 2, y: 0, rotation: 0 }],
+      mountain: [
+        3,
+        { x: 2, y: 2, rotation: 270 },
+        { x: 2, y: 4, rotation: 270 },
+        { x: 4, y: 3, rotation: 90 },
+      ],
     },
     {
-      oasis: [1, 3, 3],
-      bridge: [3, 0, 2, 0, 2, 3, 2],
-      mountain: [3, 1, 1, 2, 3, 4, 1],
+      oasis: [1, { x: 3, y: 3 }],
+      bridge: [
+        3,
+        { x: 0, y: 2, rotation: 90 },
+        { x: 2, y: 0, rotation: 0 },
+        { x: 3, y: 2, rotation: 0 },
+      ],
+      mountain: [
+        3,
+        { x: 1, y: 1, rotation: 0 },
+        { x: 2, y: 3, rotation: 90 },
+        { x: 4, y: 1, rotation: 180 },
+      ],
     },
   ],
   hard: [
     {
-      oasis: [3, 0, 2, 0, 3, 4, 6],
-      bridge: [5, 0, 5, 1, 0, 2, 2, 4, 4, 6, 3],
-      mountain: [4, 0, 1, 3, 3, 4, 0, 4, 2],
+      oasis: [3, { x: 0, y: 2 }, { x: 0, y: 3 }, { x: 4, y: 6 }],
+      bridge: [
+        5,
+        { x: 0, y: 5, rotation: 90 },
+        { x: 1, y: 0, rotation: 0 },
+        { x: 2, y: 2, rotation: 0 },
+        { x: 4, y: 4, rotation: 90 },
+        { x: 6, y: 3, rotation: 90 },
+      ],
+      mountain: [
+        4,
+        { x: 0, y: 1, rotation: 270 },
+        { x: 3, y: 3, rotation: 90 },
+        { x: 4, y: 0, rotation: 90 },
+        { x: 4, y: 2, rotation: 270 },
+      ],
     },
     {
-      oasis: [3, 0, 2, 4, 1, 6, 2],
-      bridge: [4, 1, 0, 1, 2, 2, 2, 2, 6],
-      mountain: [4, 1, 5, 3, 0, 4, 3, 5, 1],
+      oasis: [3, { x: 0, y: 2 }, { x: 4, y: 1 }, { x: 6, y: 2 }],
+      bridge: [
+        4,
+        { x: 1, y: 0, rotation: 0 },
+        { x: 1, y: 2, rotation: 90 },
+        { x: 2, y: 2, rotation: 90 },
+        { x: 2, y: 6, rotation: 0 },
+      ],
+      mountain: [
+        4,
+        { x: 1, y: 5, rotation: 180 },
+        { x: 3, y: 0, rotation: 0 },
+        { x: 4, y: 3, rotation: 270 },
+        { x: 5, y: 1, rotation: 0 },
+      ],
     },
     {
-      oasis: [3, 2, 0, , 4, 1, 6, 2],
-      bridge: [4, 0, 2, 1, 6, 4, 4, 5, 0],
-      mountain: [4, 2, 2, 4, 2, 5, 5, 6, 3],
+      oasis: [3, { x: 2, y: 0 }, , { x: 4, y: 1 }, { x: 6, y: 2 }],
+      bridge: [
+        4,
+        { x: 0, y: 2, rotation: 90 },
+        { x: 1, y: 6, rotation: 0 },
+        { x: 4, y: 4, rotation: 90 },
+        { x: 5, y: 0, rotation: 0 },
+      ],
+      mountain: [
+        4,
+        { x: 2, y: 2, rotation: 90 },
+        { x: 4, y: 2, rotation: 90 },
+        { x: 5, y: 5, rotation: 270 },
+        { x: 6, y: 3, rotation: 90 },
+      ],
     },
     {
-      oasis: [1, 3, 3],
-      bridge: [4, 1, 3, 3, 1, 3, 5, 5, 0],
-      mountain: [5, 1, 5, 2, 2, 4, 2, 4, 4, 5, 5],
+      oasis: [1, { x: 3, y: 3 }],
+      bridge: [
+        4,
+        { x: 1, y: 3, rotation: 0 },
+        { x: 3, y: 1, rotation: 90 },
+        { x: 3, y: 5, rotation: 90 },
+        { x: 5, y: 0, rotation: 0 },
+      ],
+      mountain: [
+        5,
+        { x: 1, y: 5, rotation: 180 },
+        { x: 2, y: 2, rotation: 90 },
+        { x: 4, y: 2, rotation: 180 },
+        { x: 4, y: 4, rotation: 270 },
+        { x: 5, y: 5, rotation: 90 },
+      ],
     },
     {
-      oasis: [1, 4, 4],
-      bridge: [3, 2, 1, 2, 2, 5, 3],
-      mountain: [4, 1, 5, 2, 4, 4, 2, 5, 1],
+      oasis: [1, { x: 4, y: 4 }],
+      bridge: [
+        3,
+        { x: 2, y: 1, rotation: 90 },
+        { x: 2, y: 2, rotation: 90 },
+        { x: 5, y: 3, rotation: 0 },
+      ],
+      mountain: [
+        4,
+        { x: 1, y: 5, rotation: 0 },
+        { x: 2, y: 4, rotation: 270 },
+        { x: 4, y: 2, rotation: 0 },
+        { x: 5, y: 1, rotation: 180 },
+      ],
     },
   ],
 };
@@ -71,10 +167,69 @@ export const loadData = function (name, difficulty) {
   state.playerName = name;
   state.difficulty = difficulty;
   state.level = createLevelObject(difficulty);
+  state.grid = createGrid(difficulty, state.level);
+};
+
+const createGrid = function (difficulty, level) {
+  const n = difficulty === "easy" ? 5 : 7;
+
+  const grid = Array.from(Array(n), () => Array(n));
+
+  let numOasis = level.oasis[0];
+  const oasisTiles = level.oasis.slice(1);
+
+  let numBridge = level.bridge[0];
+  const bridgeTiles = level.bridge.slice(1);
+
+  let numMountain = level.mountain[0];
+  const mountainTiles = level.mountain.slice(1);
+
+  // Load grid with empty tiles
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < n; j++) {
+      grid[i][j] = { type: "empty" };
+
+      // oasis
+      if (numOasis) {
+        for (const tile of oasisTiles) {
+          if (tile.x === i && tile.y === j) {
+            grid[i][j] = { type: "oasis" };
+            numOasis--;
+          }
+        }
+      }
+
+      // bridge
+      if (numBridge) {
+        for (const tile of bridgeTiles) {
+          if (tile.x === i && tile.y === j) {
+            grid[i][j] = { type: "bridge", rotation: tile.rotation };
+            numBridge--;
+          }
+        }
+      }
+
+      // mountains
+      if (numMountain) {
+        for (const tile of mountainTiles) {
+          if (tile.x === i && tile.y === j) {
+            grid[i][j] = { type: "mountain", rotation: tile.rotation };
+            numMountain--;
+          }
+        }
+      }
+    }
+  }
+
+  console.log(grid);
+
+  return grid;
 };
 
 const createLevelObject = function (difficulty) {
-  const random = getRandom(0, 5);
+  const random = getRandom(0, 4);
+
+  console.log(random);
 
   return levels[difficulty][random];
 };
