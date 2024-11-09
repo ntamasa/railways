@@ -1,4 +1,5 @@
 import {
+  getAngle,
   isBottomLeft,
   isBottomRight,
   isHorizontal,
@@ -82,23 +83,22 @@ class GameView extends View {
   // TODO method for checking if game is over
   isOver() {}
 
-  addHandlerAddTile(handler, checkNeighbours, unUseableTiles) {
+  addHandlerTileEvent(handler) {
     const cells = document.querySelectorAll(".tile-item");
-    console.log(cells);
 
     const tiles = [
       "straight_rail",
+      "straight_rail",
       "curve_rail",
-      "bridge_rail",
-      "mountain_rail",
+      "curve_rail",
+      "curve_rail",
+      "curve_rail",
       "empty",
     ];
 
-    // const isDragging = false;
     let newContent = ``;
     const usedCells = [];
     const enterDirection = {};
-    console.log(unUseableTiles);
 
     cells.forEach((cell) => {
       const tileType = cell.children[0].src
@@ -111,21 +111,13 @@ class GameView extends View {
       if (tileType === "oasis") return;
 
       cell.addEventListener("click", (e) => {
-        console.log(cell);
         // Get current rotation
-        const angle = this._getAngle(cell);
+        const angle = getAngle(cell);
 
         const newAngle = angle + 90 === 360 ? 0 : angle + 90;
         const [x, y] = e.target.dataset.coord.split("-").map(Number);
-        console.log(x, y);
 
-        // // Clicking on already placed rail
-        // if (usedCells.filter((usedCell) => usedCell === cell).length) {
-        //   cell.style.transform = `rotate(${newAngle}deg)`;
-        //   handler({ x, y, rotation: newAngle, content: "" });
-        // }
-
-        const neighbours = checkNeighbours(cell);
+        if (tileType === "mountain_rail" || tileType === "bridge_rail") return;
 
         // if mountain
         if (tileType === "mountain")
@@ -136,14 +128,15 @@ class GameView extends View {
           newContent = `<img src="./src/pics/tiles/bridge_rail.png"/>`;
 
         // Click any other field
-        if (tileType !== "mountain" || tileType !== "bridge") {
+        if (tileType !== "mountain" && tileType !== "bridge") {
           const img = cell.children[0];
-          console.log(img?.dataset.count ? 1 : 0);
           const counter =
-            img?.dataset.count && img?.dataset.count < 4
+            img?.dataset.count && img?.dataset.count < 6
               ? +img.dataset.count + 1
               : 0;
-          console.log(counter);
+          if (counter === 1 || (counter >= 3 && counter <= 5))
+            cell.style.transform = `rotate(${newAngle}deg)`;
+
           newContent = `<img src="./src/pics/tiles/${tiles[counter]}.png" data-count="${counter}"/>`;
         }
 
@@ -155,29 +148,8 @@ class GameView extends View {
           rotation: 0,
           content: newContent,
         });
-        // TODO check neighbours and curve rail if needed, place in the right rotation
       });
-      // cell.addEventListener("mouseenter", (e) => this._handleMouseEnter(e));
     });
-  }
-
-  // _handleClick(e, handler) {}
-
-  _getAngle(element) {
-    const style = window.getComputedStyle(element);
-    const transform = style.getPropertyValue("transform");
-
-    // If there's no transform style applied, the rotation is 0 degrees
-    if (transform === "none") return 0;
-
-    // Extract the matrix values
-    const values = transform.match(/matrix.*\((.+)\)/)[1].split(", ");
-    const a = values[0];
-    const b = values[1];
-
-    // Calculate the angle in degrees
-    const angle = Math.round(Math.atan2(b, a) * (180 / Math.PI));
-    return angle < 0 ? angle + 360 : angle; // Ensure angle is in [0, 360] range
   }
 
   _handleMouseDown(e) {

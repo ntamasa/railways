@@ -365,3 +365,20 @@ export const isBottomLeft = function (neighbour) {
     return false;
   return true;
 };
+
+export const getAngle = function (element) {
+  const style = window.getComputedStyle(element);
+  const transform = style.getPropertyValue("transform");
+
+  // If there's no transform style applied, the rotation is 0 degrees
+  if (transform === "none") return 0;
+
+  // Extract the matrix values
+  const values = transform.match(/matrix.*\((.+)\)/)[1].split(", ");
+  const a = values[0];
+  const b = values[1];
+
+  // Calculate the angle in degrees
+  const angle = Math.round(Math.atan2(b, a) * (180 / Math.PI));
+  return angle < 0 ? angle + 360 : angle; // Ensure angle is in [0, 360] range
+};

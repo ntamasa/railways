@@ -34,13 +34,7 @@ const controlStart = function (newPage) {
     statsView.render(model.state);
   }, 1000);
 
-  const unUseableTiles = model.state.level.oasis.slice(1);
-
-  gameView.addHandlerAddTile(
-    model.updateGrid,
-    model.checkNeighBours,
-    unUseableTiles
-  );
+  gameView.addHandlerTileEvent(model.updateGrid);
   console.log(model.state.grid);
   // gameView.render(model.state.grid);
   // } catch (err) {
