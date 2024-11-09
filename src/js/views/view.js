@@ -18,7 +18,8 @@ export default class View {
 
     // if (!render) return markup;
     if (render) {
-      this._parentElement.insertAdjacentHTML("beforeend", markup);
+      // this._parentElement.insertAdjacentHTML("beforeend", markup);
+      this._parentElement.insertAdjacentHTML("afterbegin", markup);
       return;
     }
 

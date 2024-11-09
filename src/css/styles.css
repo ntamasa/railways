@@ -69,6 +69,7 @@ h1 {
   text-align: center;
   align-self: flex-end;
   margin-bottom: 0.6rem;
+  transform: translatey(4.2rem);
 }
 
 body[data-type="column"] footer {
