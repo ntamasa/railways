@@ -151,52 +151,6 @@ class GameView extends View {
       });
     });
   }
-
-  _handleMouseDown(e) {
-    // 1, Check if already used
-    if (usedCells.filter((usedCell) => usedCell === cell)) {
-      isDragging = false;
-      return;
-    }
-
-    // 2, Start dragging
-    isDragging = true;
-
-    // 3, Store enter direction
-
-    // first tile
-    enterDirection[cell.dataset.coord] = "initial";
-  }
-
-  _handleMouseEnter(e) {
-    // 1, Check if dragging
-    if (!isDragging) return;
-
-    const { x, y } = e.target.dataset.coord.split("-").map(Number);
-    const { lastX, lastY } = usedCells
-      .slice(-1)
-      .dataset.coord.split("-")
-      .map(Number);
-
-    // 2, Check if the move way diagonal
-    if (Math.abs(lastX - x) + Math.abs(lastY - y) !== 1) {
-      isDragging = false;
-      // Reset current drag
-      return;
-    }
-
-    // 3, Store newly entered cell and enter direction
-    if (x === lastX) {
-      if (y < lastY) enterDirection[cell.dataset.coord] = "down";
-      if (y > lastY) enterDirection[cell.dataset.coord] = "up";
-    }
-    if (y == lastY) {
-      if (x < lastX) enterDirection[cell.dataset.coord] = "right";
-      if (x > lastX) enterDirection[cell.dataset.coord] = "left";
-    }
-
-    usedCell.append(cell);
-  }
 }
 
 export default new GameView();

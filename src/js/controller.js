@@ -10,37 +10,34 @@ const controlDescription = function (newPage) {
 };
 
 const controlStart = function (newPage) {
-  // try {
-  // 1, Get data from input fields
+  try {
+    // 1, Get data from input fields
+    const name = gameView.getName(); // could throw an error
+    const difficulty = gameView.getDifficulty();
 
-  const name = gameView.getName(); // could throw an error
-  const difficulty = gameView.getDifficulty();
-  console.log(`name: ${name}`);
-  console.log(`difficulty: ${difficulty}`);
+    // 2, Load all data to state object
+    model.loadData(name, difficulty);
+    model.updatePage(newPage);
 
-  // 2, Load all data to state object
-  model.loadData(name, difficulty);
-  model.updatePage(newPage);
+    console.log(model.state);
 
-  console.log(model.state);
-
-  // 3, Render game page
-  gameView.render(model.state.grid);
-  statsView.render(model.state);
-
-  // 4, Upadte and render timer update
-  setInterval(async () => {
-    model.updateTimer();
+    // 3, Render game page
+    gameView.render(model.state.grid);
     statsView.render(model.state);
-  }, 1000);
 
-  gameView.addHandlerTileEvent(model.updateGrid);
-  console.log(model.state.grid);
-  // gameView.render(model.state.grid);
-  // } catch (err) {
-  //   console.log(err.message);
-  //   gameView.renderError();
-  // }
+    // 4, Upadte and render timer update
+    setInterval(async () => {
+      model.updateTimer();
+      statsView.render(model.state);
+    }, 1000);
+
+    // 4, Handle click event on a field
+    gameView.addHandlerTileEvent(model.updateGrid);
+  } catch (err) {
+    // TODO write renderError
+    gameView.renderError();
+    console.error(err.message);
+  }
 };
 
 const init = function () {

@@ -6,7 +6,7 @@ export const state = {
   difficulty: "easy",
   level: {},
   grid: [[]],
-  timeElapsed: 1,
+  timeElapsed: 0,
 };
 
 const levels = {
@@ -235,24 +235,17 @@ const createLevelObject = function (difficulty) {
 };
 
 export const updateGrid = function (changedCell) {
-  console.log("model vagyok");
-  console.log(changedCell);
   if (!changedCell) return;
 
   const n = state.difficulty === "easy" ? 5 : 7;
   const { x, y, rotation, content } = changedCell;
   const type = content.split("/")[4].split(".")[0];
-  console.log(type);
 
   for (let i = 0; i < n; i++) {
     for (let j = 0; j < n; j++) {
-      if (x === i && y === j) {
-        console.log("changed");
-        state.grid[i][j] = { type, rotation };
-      }
+      if (x === i && y === j) state.grid[i][j] = { type, rotation };
     }
   }
-  console.log(state.grid);
 };
 
 export const checkNeighBours = function (cell) {
