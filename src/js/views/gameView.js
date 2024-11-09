@@ -1,12 +1,4 @@
-import {
-  getAngle,
-  isBottomLeft,
-  isBottomRight,
-  isHorizontal,
-  isTopLeft,
-  isTopRight,
-  isVertical,
-} from "../helper.js";
+import { getAngle } from "../helper.js";
 import View from "./view.js";
 
 class GameView extends View {
@@ -16,7 +8,6 @@ class GameView extends View {
   _btn = document.querySelector(".start");
 
   _generateMarkup() {
-    console.log(this._data);
     return `<table class="game-board">
         ${this._data
           .map(
@@ -80,10 +71,8 @@ class GameView extends View {
     });
   }
 
-  // TODO method for checking if game is over
-  isOver() {}
-
-  addHandlerTileEvent(handler) {
+  addHandlerTileEvent(handler, isOver, grid) {
+    let isEnded = false;
     const cells = document.querySelectorAll(".tile-item");
 
     const tiles = [
@@ -101,41 +90,60 @@ class GameView extends View {
     const enterDirection = {};
 
     cells.forEach((cell) => {
-      const tileType = cell.children[0].src
-        .split("/")
-        .slice(-1)
-        .join()
-        .split(".")[0];
-
       // if oasis
-      if (tileType === "oasis") return;
+      if (
+        cell.children[0].src.split("/").slice(-1).join().split(".")[0] ===
+        "oasis"
+      )
+        return;
 
       cell.addEventListener("click", (e) => {
+        const tileType = cell.children[0].src
+          .split("/")
+          .slice(-1)
+          .join()
+          .split(".")[0];
         // Get current rotation
         const angle = getAngle(cell);
+        console.log(angle);
+        let newAngle = 0;
 
-        const newAngle = angle + 90 === 360 ? 0 : angle + 90;
         const [x, y] = e.target.dataset.coord.split("-").map(Number);
 
+        // if mountain / bridge
+        if (tileType === "mountain" || tileType === "bridge") {
+          newContent = `<img src="./src/pics/tiles/${tileType}_rail.png"/>`;
+          handler({
+            x,
+            y,
+            rotation: grid[x][y].rotation,
+            content: newContent,
+          });
+        }
+
+        // used mountain / bridge
         if (tileType === "mountain_rail" || tileType === "bridge_rail") return;
 
-        // if mountain
-        if (tileType === "mountain")
-          newContent = `<img src="./src/pics/tiles/mountain_rail.png"/>`;
-
-        // if bridge
-        if (tileType === "bridge")
-          newContent = `<img src="./src/pics/tiles/bridge_rail.png"/>`;
-
         // Click any other field
-        if (tileType !== "mountain" && tileType !== "bridge") {
+        if (
+          tileType === "curve_rail" ||
+          tileType === "straight_rail" ||
+          tileType === "empty"
+        ) {
           const img = cell.children[0];
           const counter =
-            img?.dataset.count && img?.dataset.count < 6
+            img?.dataset.count >= 0 && img?.dataset.count < 6
               ? +img.dataset.count + 1
               : 0;
-          if (counter === 1 || (counter >= 3 && counter <= 5))
-            cell.style.transform = `rotate(${newAngle}deg)`;
+          if (counter === 0) newAngle = 0;
+          if (counter === 1) newAngle = -90;
+          if (counter === 2) newAngle = 0;
+          if (counter === 3) newAngle = -90;
+          if (counter === 4) newAngle = 180;
+          if (counter === 5) newAngle = -270;
+          if (counter === 6) newAngle = 0;
+
+          cell.style.transform = `rotate(${newAngle}deg)`;
 
           newContent = `<img src="./src/pics/tiles/${tiles[counter]}.png" data-count="${counter}"/>`;
         }
@@ -145,11 +153,15 @@ class GameView extends View {
         handler({
           x,
           y,
-          rotation: 0,
+          rotation: newAngle,
           content: newContent,
         });
+        isEnded = isOver() ? true : isEnded;
+        console.log(isEnded);
       });
     });
+    console.log(isEnded);
+    return isEnded;
   }
 }
 

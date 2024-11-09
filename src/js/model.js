@@ -1,4 +1,12 @@
-import { getRandom } from "./helper.js";
+import {
+  getRandom,
+  isValidBottomLeft,
+  isValidBottomRight,
+  isValidHorizontal,
+  isValidTopLeft,
+  isValidTopRight,
+  isValidVertical,
+} from "./helper.js";
 
 export const state = {
   playerName: "",
@@ -7,6 +15,8 @@ export const state = {
   level: {},
   grid: [[]],
   timeElapsed: 0,
+  isOver: false,
+  timer: undefined,
 };
 
 const levels = {
@@ -187,13 +197,13 @@ const createGrid = function (difficulty, level) {
   // Load grid with empty tiles
   for (let i = 0; i < n; i++) {
     for (let j = 0; j < n; j++) {
-      grid[i][j] = { type: "empty" };
+      grid[i][j] = { type: "empty", x: i, y: j };
 
       // oasis
       if (numOasis) {
         for (const tile of oasisTiles) {
           if (tile.x === i && tile.y === j) {
-            grid[i][j] = { type: "oasis" };
+            grid[i][j] = { type: "oasis", x: i, y: j };
             numOasis--;
           }
         }
@@ -203,7 +213,12 @@ const createGrid = function (difficulty, level) {
       if (numBridge) {
         for (const tile of bridgeTiles) {
           if (tile.x === i && tile.y === j) {
-            grid[i][j] = { type: "bridge", rotation: tile.rotation };
+            grid[i][j] = {
+              type: "bridge",
+              rotation: tile.rotation,
+              x: i,
+              y: j,
+            };
             numBridge--;
           }
         }
@@ -213,15 +228,18 @@ const createGrid = function (difficulty, level) {
       if (numMountain) {
         for (const tile of mountainTiles) {
           if (tile.x === i && tile.y === j) {
-            grid[i][j] = { type: "mountain", rotation: tile.rotation };
+            grid[i][j] = {
+              type: "mountain",
+              rotation: tile.rotation,
+              x: i,
+              y: j,
+            };
             numMountain--;
           }
         }
       }
     }
   }
-
-  console.log(grid);
 
   return grid;
 };
@@ -243,22 +261,44 @@ export const updateGrid = function (changedCell) {
 
   for (let i = 0; i < n; i++) {
     for (let j = 0; j < n; j++) {
-      if (x === i && y === j) state.grid[i][j] = { type, rotation };
+      if (x === i && y === j)
+        if (
+          state.grid[i][j].type === "mountain_rail" ||
+          state.grid[i][j].type === "bridge_rail"
+        ) {
+          state.grid[i][j].type = type;
+        } else {
+          state.grid[i][j] = {
+            type,
+            rotation,
+            x,
+            y,
+          };
+        }
+      console.log(isOver());
+      if (isOver()) stopTimer();
     }
   }
+
+  console.log(state.grid);
 };
 
-export const checkNeighBours = function (cell) {
+const checkNeighbours = function (tile) {
   const n = state.difficulty === "easy" ? 5 : 7;
-  const [x, y] = cell.dataset.coord.split("-").map(Number);
-  const result = { top: "", right: "", bottom: "", left: "" };
+  const { x, y } = tile;
+  const result = {
+    top: undefined,
+    right: undefined,
+    bottom: undefined,
+    left: undefined,
+  };
 
   for (let i = 0; i < n; i++) {
     for (let j = 0; j < n; j++) {
-      if (i === x && j - 1 === y) result.right = state.grid[i][j];
-      if (i === x && j + 1 === y) result.left = state.grid[i][j];
-      if (j === y && i - 1 === x) result.bottom = state.grid[i][j];
-      if (j === y && i + 1 === x) result.top = state.grid[i][j];
+      if (i === x && j === y - 1) result.left = state.grid[i][j];
+      if (i === x && j === y + 1) result.right = state.grid[i][j];
+      if (j === y && i === x - 1) result.top = state.grid[i][j];
+      if (j === y && i === x + 1) result.bottom = state.grid[i][j];
     }
   }
   console.log(result);
@@ -269,10 +309,122 @@ export const updatePage = function (newPage) {
   state.page = newPage;
 };
 
-export const updateTimer = async function () {
-  state.timeElapsed++;
+export const startTimer = function () {
+  if (state.timer) return;
+
+  state.timer = setInterval(() => {
+    state.timeElapsed++;
+  }, 1000);
+};
+
+export const stopTimer = function () {
+  if (state.timer) {
+    clearInterval(state.timer);
+    state.timer = null;
+  }
 };
 
 export const getLevel = function () {
   return this.state.level;
+};
+
+export const isOver = function () {
+  const n = state.difficulty === "easy" ? 5 : 7;
+
+  const startTile = state.grid[0][0];
+  const lastTile = startTile;
+
+  console.log("elotte");
+  if (!checkAllFieldsUsed()) return;
+  console.log("utanna");
+
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < n; j++) {
+      // Every rail containing tile connect to each other correctly (no dead ends, has a circle)
+      // if (state.grid[i][j] === startTile) continue;
+      console.log("sdzsi");
+      const tile = state.grid[i][j];
+      const neighbours = checkNeighbours(tile);
+      const isCurved =
+        tile.type === "curved_rail" || tile.type === "mountain_rail";
+
+      console.log(tile);
+      // straight/bridge rotation:0
+      // prettier-ignore
+      if ((tile.type === "straight_rail" || tile.type === "bridge_rail") && (tile.rotation === 0)) {
+        if (!isValidVertical(neighbours)) {
+          console.log("1")
+          return false
+        }
+      }
+
+      // straight rotation:-90
+      // prettier-ignore
+      if ((tile.type === "straight_rail" || tile.type === "bridge_rail") && (tile.rotation === -90)) {
+        if (!isValidHorizontal(neighbours)) {
+          console.log("2")
+          return false;
+        }
+      }
+
+      // curved/mountain rotation:0
+      // prettier-ignore
+      if (isCurved && tile.rotation === 0) {
+        if (!isValidBottomRight(neighbours)) {
+          console.log("3")
+          return false;
+        }
+      }
+
+      // curved/mountain rotation:-90
+      // prettier-ignore
+      if (isCurved && tile.rotation === -90){
+        if (!isValidTopRight(neighbours)) {
+          console.log("4")
+          return false;
+        }
+      }
+
+      // curved/mountain rotation:180
+      // prettier-ignore
+      if (isCurved && tile.rotation === 180) {
+        if (!isValidTopLeft(neighbours)) {
+          console.log("5")
+          return false
+        }
+      }
+
+      // curved/mountain rotation:-270
+      // prettier-ignore
+      if (isCurved && tile.rotation === -270) {
+        if (!isValidBottomLeft(neighbours)) {
+          console.log("6")
+          return false
+        }
+      }
+    }
+  }
+  return true;
+};
+
+export const calcEnd = function () {
+  state.isOver = true;
+};
+
+const checkAllFieldsUsed = function () {
+  const n = state.difficulty === "easy" ? 5 : 7;
+  let isAllUsed = true;
+
+  console.log(state.grid);
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < n; j++) {
+      // 2, Every non-oasis tile has XY_rail type
+      if (
+        state.grid[i][j].type !== "oasis" &&
+        !state.grid[i][j].type.includes("rail")
+      )
+        isAllUsed = false;
+    }
+  }
+  return isAllUsed;
 };

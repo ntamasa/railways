@@ -83,6 +83,7 @@ body[data-type="column"] main {
   outline: 10px solid var(--color-primary-dark-2);
   border-radius: 15px;
   border-collapse: collapse;
+  overflow: hidden;
 }
 
 .game-board tr td img {

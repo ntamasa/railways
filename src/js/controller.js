@@ -9,7 +9,7 @@ const controlDescription = function (newPage) {
   descriptionView.render(model.state.page, true);
 };
 
-const controlStart = function (newPage) {
+const controlGame = function (newPage) {
   try {
     // 1, Get data from input fields
     const name = gameView.getName(); // could throw an error
@@ -19,20 +19,22 @@ const controlStart = function (newPage) {
     model.loadData(name, difficulty);
     model.updatePage(newPage);
 
-    console.log(model.state);
-
     // 3, Render game page
     gameView.render(model.state.grid);
     statsView.render(model.state);
 
     // 4, Upadte and render timer update
-    setInterval(async () => {
-      model.updateTimer();
+    model.startTimer();
+    setInterval(() => {
       statsView.render(model.state);
     }, 1000);
 
     // 4, Handle click event on a field
-    gameView.addHandlerTileEvent(model.updateGrid);
+    gameView.addHandlerTileEvent(
+      model.updateGrid,
+      model.isOver,
+      model.state.grid
+    );
   } catch (err) {
     // TODO write renderError
     gameView.renderError();
@@ -42,6 +44,6 @@ const controlStart = function (newPage) {
 
 const init = function () {
   descriptionView.addHandlerRender(controlDescription);
-  gameView.addHandlerRender(controlStart);
+  gameView.addHandlerRender(controlGame);
 };
 init();
