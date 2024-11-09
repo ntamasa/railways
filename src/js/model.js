@@ -234,10 +234,52 @@ const createLevelObject = function (difficulty) {
   return levels[difficulty][random];
 };
 
+export const updateGrid = function (changedCell) {
+  console.log("model vagyok");
+  console.log(changedCell);
+  if (!changedCell) return;
+
+  const n = state.difficulty === "easy" ? 5 : 7;
+  const { x, y, rotation, content } = changedCell;
+  const type = content.split("/")[4].split(".")[0];
+  console.log(type);
+
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < n; j++) {
+      if (x === i && y === j) {
+        console.log("changed");
+        state.grid[i][j] = { type, rotation };
+      }
+    }
+  }
+  console.log(state.grid);
+};
+
+export const checkNeighBours = function (cell) {
+  const n = state.difficulty === "easy" ? 5 : 7;
+  const [x, y] = cell.dataset.coord.split("-").map(Number);
+  const result = { top: "", right: "", bottom: "", left: "" };
+
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < n; j++) {
+      if (i === x && j - 1 === y) result.right = state.grid[i][j];
+      if (i === x && j + 1 === y) result.left = state.grid[i][j];
+      if (j === y && i - 1 === x) result.bottom = state.grid[i][j];
+      if (j === y && i + 1 === x) result.top = state.grid[i][j];
+    }
+  }
+  console.log(result);
+  return result;
+};
+
 export const updatePage = function (newPage) {
   state.page = newPage;
 };
 
 export const updateTimer = async function () {
   state.timeElapsed++;
+};
+
+export const getLevel = function () {
+  return this.state.level;
 };

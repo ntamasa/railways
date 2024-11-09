@@ -1,3 +1,11 @@
+import {
+  isBottomLeft,
+  isBottomRight,
+  isHorizontal,
+  isTopLeft,
+  isTopRight,
+  isVertical,
+} from "../helper.js";
 import View from "./view.js";
 
 class GameView extends View {
@@ -7,20 +15,21 @@ class GameView extends View {
   _btn = document.querySelector(".start");
 
   _generateMarkup() {
+    console.log(this._data);
     return `<table class="game-board">
         ${this._data
           .map(
-            (row) => `<tr>
+            (row, i) => `<tr>
               ${row
                 .map(
-                  (col) =>
-                    `<td class="tile-item" ${
+                  (col, j) =>
+                    `<td class="tile-item" data-coord="${i}-${j}" ${
                       row.length === 7 ? 'style="max-width: 11rem"' : ""
-                    }><img src="./src/pics/tiles/${col.type}.png" ${
+                    } ${
                       col?.rotation
                         ? `style="transform: rotate(${col?.rotation}deg)"`
-                        : 0
-                    } /></td>`
+                        : ""
+                    }><img src="./src/pics/tiles/${col.type}.png"  /></td>`
                 )
                 .join("")}
             </tr>`
@@ -70,8 +79,151 @@ class GameView extends View {
     });
   }
 
-  addHandler(handler) {
-    handler();
+  // TODO method for checking if game is over
+  isOver() {}
+
+  addHandlerAddTile(handler, checkNeighbours, unUseableTiles) {
+    const cells = document.querySelectorAll(".tile-item");
+    console.log(cells);
+
+    const tiles = [
+      "straight_rail",
+      "curve_rail",
+      "bridge_rail",
+      "mountain_rail",
+      "empty",
+    ];
+
+    // const isDragging = false;
+    let newContent = ``;
+    const usedCells = [];
+    const enterDirection = {};
+    console.log(unUseableTiles);
+
+    cells.forEach((cell) => {
+      const tileType = cell.children[0].src
+        .split("/")
+        .slice(-1)
+        .join()
+        .split(".")[0];
+
+      // if oasis
+      if (tileType === "oasis") return;
+
+      cell.addEventListener("click", (e) => {
+        console.log(cell);
+        // Get current rotation
+        const angle = this._getAngle(cell);
+
+        const newAngle = angle + 90 === 360 ? 0 : angle + 90;
+        const [x, y] = e.target.dataset.coord.split("-").map(Number);
+        console.log(x, y);
+
+        // // Clicking on already placed rail
+        // if (usedCells.filter((usedCell) => usedCell === cell).length) {
+        //   cell.style.transform = `rotate(${newAngle}deg)`;
+        //   handler({ x, y, rotation: newAngle, content: "" });
+        // }
+
+        const neighbours = checkNeighbours(cell);
+
+        // if mountain
+        if (tileType === "mountain")
+          newContent = `<img src="./src/pics/tiles/mountain_rail.png"/>`;
+
+        // if bridge
+        if (tileType === "bridge")
+          newContent = `<img src="./src/pics/tiles/bridge_rail.png"/>`;
+
+        // Click any other field
+        if (tileType !== "mountain" || tileType !== "bridge") {
+          const img = cell.children[0];
+          console.log(img?.dataset.count ? 1 : 0);
+          const counter =
+            img?.dataset.count && img?.dataset.count < 4
+              ? +img.dataset.count + 1
+              : 0;
+          console.log(counter);
+          newContent = `<img src="./src/pics/tiles/${tiles[counter]}.png" data-count="${counter}"/>`;
+        }
+
+        cell.innerHTML = newContent;
+        usedCells.push(cell);
+        handler({
+          x,
+          y,
+          rotation: 0,
+          content: newContent,
+        });
+        // TODO check neighbours and curve rail if needed, place in the right rotation
+      });
+      // cell.addEventListener("mouseenter", (e) => this._handleMouseEnter(e));
+    });
+  }
+
+  // _handleClick(e, handler) {}
+
+  _getAngle(element) {
+    const style = window.getComputedStyle(element);
+    const transform = style.getPropertyValue("transform");
+
+    // If there's no transform style applied, the rotation is 0 degrees
+    if (transform === "none") return 0;
+
+    // Extract the matrix values
+    const values = transform.match(/matrix.*\((.+)\)/)[1].split(", ");
+    const a = values[0];
+    const b = values[1];
+
+    // Calculate the angle in degrees
+    const angle = Math.round(Math.atan2(b, a) * (180 / Math.PI));
+    return angle < 0 ? angle + 360 : angle; // Ensure angle is in [0, 360] range
+  }
+
+  _handleMouseDown(e) {
+    // 1, Check if already used
+    if (usedCells.filter((usedCell) => usedCell === cell)) {
+      isDragging = false;
+      return;
+    }
+
+    // 2, Start dragging
+    isDragging = true;
+
+    // 3, Store enter direction
+
+    // first tile
+    enterDirection[cell.dataset.coord] = "initial";
+  }
+
+  _handleMouseEnter(e) {
+    // 1, Check if dragging
+    if (!isDragging) return;
+
+    const { x, y } = e.target.dataset.coord.split("-").map(Number);
+    const { lastX, lastY } = usedCells
+      .slice(-1)
+      .dataset.coord.split("-")
+      .map(Number);
+
+    // 2, Check if the move way diagonal
+    if (Math.abs(lastX - x) + Math.abs(lastY - y) !== 1) {
+      isDragging = false;
+      // Reset current drag
+      return;
+    }
+
+    // 3, Store newly entered cell and enter direction
+    if (x === lastX) {
+      if (y < lastY) enterDirection[cell.dataset.coord] = "down";
+      if (y > lastY) enterDirection[cell.dataset.coord] = "up";
+    }
+    if (y == lastY) {
+      if (x < lastX) enterDirection[cell.dataset.coord] = "right";
+      if (x > lastX) enterDirection[cell.dataset.coord] = "left";
+    }
+
+    usedCell.append(cell);
   }
 }
 
