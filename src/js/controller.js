@@ -37,8 +37,6 @@ const controlGame = function (newPage) {
 const controlToplist = function () {
   toplistView.render(model.state.toplist);
   toplistView.toggleOpen();
-
-  if (model.state.isOver) toplistView.render(model.state.toplist);
 };
 
 const init = function () {

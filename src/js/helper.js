@@ -1,5 +1,115 @@
+import { levels } from "./levels.js";
+
 export const getRandom = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+export const checkAllFieldsUsed = function (state) {
+  const n = state.difficulty === "easy" ? 5 : 7;
+  let isAllUsed = true;
+
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < n; j++) {
+      // 2, Every non-oasis tile has XY_rail type
+      if (
+        state.grid[i][j].type !== "oasis" &&
+        !state.grid[i][j].type.includes("rail")
+      )
+        isAllUsed = false;
+    }
+  }
+  return isAllUsed;
+};
+
+export const checkNeighbours = function (tile, state) {
+  const n = state.difficulty === "easy" ? 5 : 7;
+  const { x, y } = tile;
+  const result = {
+    top: undefined,
+    right: undefined,
+    bottom: undefined,
+    left: undefined,
+  };
+
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < n; j++) {
+      if (i === x && j === y - 1) result.left = state.grid[i][j];
+      if (i === x && j === y + 1) result.right = state.grid[i][j];
+      if (j === y && i === x - 1) result.top = state.grid[i][j];
+      if (j === y && i === x + 1) result.bottom = state.grid[i][j];
+    }
+  }
+  return result;
+};
+
+export const createGrid = function (difficulty, level) {
+  const n = difficulty === "easy" ? 5 : 7;
+
+  const grid = Array.from(Array(n), () => Array(n));
+
+  let numOasis = level.oasis[0];
+  const oasisTiles = level.oasis.slice(1);
+
+  let numBridge = level.bridge[0];
+  const bridgeTiles = level.bridge.slice(1);
+
+  let numMountain = level.mountain[0];
+  const mountainTiles = level.mountain.slice(1);
+
+  // Load grid with empty tiles
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < n; j++) {
+      grid[i][j] = { type: "empty", x: i, y: j };
+
+      // oasis
+      if (numOasis) {
+        for (const tile of oasisTiles) {
+          if (tile.x === i && tile.y === j) {
+            grid[i][j] = { type: "oasis", x: i, y: j };
+            numOasis--;
+          }
+        }
+      }
+
+      // bridge
+      if (numBridge) {
+        for (const tile of bridgeTiles) {
+          if (tile.x === i && tile.y === j) {
+            grid[i][j] = {
+              type: "bridge",
+              rotation: tile.rotation,
+              x: i,
+              y: j,
+            };
+            numBridge--;
+          }
+        }
+      }
+
+      // mountains
+      if (numMountain) {
+        for (const tile of mountainTiles) {
+          if (tile.x === i && tile.y === j) {
+            grid[i][j] = {
+              type: "mountain",
+              rotation: tile.rotation,
+              x: i,
+              y: j,
+            };
+            numMountain--;
+          }
+        }
+      }
+    }
+  }
+
+  return grid;
+};
+
+export const createLevelObject = function (difficulty) {
+  const random = getRandom(0, 4);
+
+  return levels[difficulty][random];
 };
 
 // straight rotation: 0 rail can be placed
