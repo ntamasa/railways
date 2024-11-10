@@ -48,8 +48,11 @@ class DescriptionView extends View {
           </p>
           <p>
             A játéknak akkor van <em>vége</em>, amikor a játékos a megadott
-            szabályokat betartva elkészíti a feladvány
+            szabályokat betartva (minden nem oázis mező használva volt, egyetlen kört teszünk, folytonos a sínek lehelyezése azaz nincs zsákutca) elkészíti a feladvány
             <em>helyes</em> megoldását.
+          </p>
+          <p>
+            Mezőt lehelyezni bal egérgombbal lehet lehelyezni, majd később a már lehelyezett mezőre kattintva pedig forgatni és másik típusú mezőre váltani lehetséges.
           </p>
         </article>
         <article class="tiles-box">
