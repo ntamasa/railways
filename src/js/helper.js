@@ -51,17 +51,14 @@ export const isValidVertical = function (neighbour) {
 // straight rotation: 90deg rail can be placed
 export const isValidHorizontal = function (neighbour) {
   const { top, right, bottom, left } = neighbour;
-  console.log(neighbour);
 
   // if left tile is bad
   // prettier-ignore
   if (left?.type === "oasis" || ((left?.type === "straight_rail" || left?.type === "bridge_rail") && left?.rotation === 0) || ((left?.type === "curved_rail" || left?.type === "mountain_rail") && (left?.rotation === 180 || left?.rotation === -270))) return false;
-  console.log(1);
 
   // if right tile is bad
   // prettier-ignore
   if (right?.type === "oasis" || ((right?.type === "straight_rail" || right?.type === "bridge_rail") && right?.rotation === 0) || ((right?.type === "curved_rail" || right?.type === "mountain_rail") && (right?.rotation === 0 || right?.rotation === -90))) return false;
-  console.log(2);
 
   // if top tile is straight and
   if (
@@ -69,7 +66,6 @@ export const isValidHorizontal = function (neighbour) {
     top?.rotation === 0
   )
     return false;
-  console.log(3);
 
   // if bottom tile is straight and
   if (
@@ -79,7 +75,6 @@ export const isValidHorizontal = function (neighbour) {
     bottom?.rotation === 0
   )
     return false;
-  console.log(4);
 
   // if top tile is curved and
   if (
@@ -89,7 +84,6 @@ export const isValidHorizontal = function (neighbour) {
     (top?.rotation === 0 || left?.rotation === -270)
   )
     return false;
-  console.log(5);
 
   // if bottom tile is curved and
   if (
@@ -99,7 +93,6 @@ export const isValidHorizontal = function (neighbour) {
     (bottom?.rotation === -90 || bottom?.rotation === 180)
   )
     return false;
-  console.log(6);
 
   return true;
 };
@@ -310,21 +303,4 @@ export const isValidBottomLeft = function (neighbour) {
   )
     return false;
   return true;
-};
-
-export const getAngle = function (element) {
-  const style = window.getComputedStyle(element);
-  const transform = style.getPropertyValue("transform");
-
-  // If there's no transform style applied, the rotation is 0 degrees
-  if (transform === "none") return 0;
-
-  // Extract the matrix values
-  const values = transform.match(/matrix.*\((.+)\)/)[1].split(", ");
-  const a = values[0];
-  const b = values[1];
-
-  // Calculate the angle in degrees
-  const angle = Math.round(Math.atan2(b, a) * (180 / Math.PI));
-  return angle < 0 ? angle + 360 : angle; // Ensure angle is in [0, 360] range
 };

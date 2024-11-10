@@ -7,6 +7,7 @@ import {
   isValidTopRight,
   isValidVertical,
 } from "./helper.js";
+import toplistView from "./views/toplistView.js";
 
 export const state = {
   playerName: "",
@@ -17,6 +18,7 @@ export const state = {
   timeElapsed: 0,
   isOver: false,
   timer: undefined,
+  toplist: [],
 };
 
 const levels = {
@@ -178,6 +180,8 @@ export const loadData = function (name, difficulty) {
   state.difficulty = difficulty;
   state.level = createLevelObject(difficulty);
   state.grid = createGrid(difficulty, state.level);
+  state.toplist = getSavedToplist();
+  console.log(state.toplist);
 };
 
 const createGrid = function (difficulty, level) {
@@ -247,8 +251,6 @@ const createGrid = function (difficulty, level) {
 const createLevelObject = function (difficulty) {
   const random = getRandom(0, 4);
 
-  console.log(random);
-
   return levels[difficulty][random];
 };
 
@@ -275,12 +277,15 @@ export const updateGrid = function (changedCell) {
             y,
           };
         }
-      console.log(isOver());
-      if (isOver()) stopTimer();
     }
   }
-
-  console.log(state.grid);
+  if (isOver()) {
+    stopTimer();
+    updateToplist(state.playerName, state.timeElapsed);
+    saveToplist();
+    toplistView.render(state.toplist);
+    console.log(state.toplist);
+  }
 };
 
 const checkNeighbours = function (tile) {
@@ -301,7 +306,6 @@ const checkNeighbours = function (tile) {
       if (j === y && i === x + 1) result.bottom = state.grid[i][j];
     }
   }
-  console.log(result);
   return result;
 };
 
@@ -334,88 +338,73 @@ export const isOver = function () {
   const startTile = state.grid[0][0];
   const lastTile = startTile;
 
-  console.log("elotte");
   if (!checkAllFieldsUsed()) return;
-  console.log("utanna");
 
   for (let i = 0; i < n; i++) {
     for (let j = 0; j < n; j++) {
       // Every rail containing tile connect to each other correctly (no dead ends, has a circle)
       // if (state.grid[i][j] === startTile) continue;
-      console.log("sdzsi");
       const tile = state.grid[i][j];
       const neighbours = checkNeighbours(tile);
       const isCurved =
         tile.type === "curved_rail" || tile.type === "mountain_rail";
 
-      console.log(tile);
       // straight/bridge rotation:0
       // prettier-ignore
       if ((tile.type === "straight_rail" || tile.type === "bridge_rail") && (tile.rotation === 0)) {
-        if (!isValidVertical(neighbours)) {
-          console.log("1")
+        if (!isValidVertical(neighbours))
           return false
-        }
+
       }
 
       // straight rotation:-90
       // prettier-ignore
       if ((tile.type === "straight_rail" || tile.type === "bridge_rail") && (tile.rotation === -90)) {
-        if (!isValidHorizontal(neighbours)) {
-          console.log("2")
+        if (!isValidHorizontal(neighbours))
           return false;
-        }
+
       }
 
       // curved/mountain rotation:0
       // prettier-ignore
       if (isCurved && tile.rotation === 0) {
-        if (!isValidBottomRight(neighbours)) {
-          console.log("3")
+        if (!isValidBottomRight(neighbours))
           return false;
-        }
+
       }
 
       // curved/mountain rotation:-90
       // prettier-ignore
       if (isCurved && tile.rotation === -90){
-        if (!isValidTopRight(neighbours)) {
-          console.log("4")
+        if (!isValidTopRight(neighbours))
           return false;
-        }
+
       }
 
       // curved/mountain rotation:180
       // prettier-ignore
       if (isCurved && tile.rotation === 180) {
-        if (!isValidTopLeft(neighbours)) {
-          console.log("5")
+        if (!isValidTopLeft(neighbours))
           return false
-        }
+
       }
 
       // curved/mountain rotation:-270
       // prettier-ignore
       if (isCurved && tile.rotation === -270) {
-        if (!isValidBottomLeft(neighbours)) {
-          console.log("6")
+        if (!isValidBottomLeft(neighbours))
           return false
-        }
       }
     }
   }
-  return true;
-};
-
-export const calcEnd = function () {
   state.isOver = true;
+  return true;
 };
 
 const checkAllFieldsUsed = function () {
   const n = state.difficulty === "easy" ? 5 : 7;
   let isAllUsed = true;
 
-  console.log(state.grid);
   for (let i = 0; i < n; i++) {
     for (let j = 0; j < n; j++) {
       // 2, Every non-oasis tile has XY_rail type
@@ -427,4 +416,25 @@ const checkAllFieldsUsed = function () {
     }
   }
   return isAllUsed;
+};
+
+export const saveToplist = function () {
+  localStorage.removeItem("toplist");
+  localStorage.setItem("toplist", JSON.stringify(state.toplist));
+};
+
+export const getSavedToplist = function () {
+  if (!localStorage.getItem("toplist")) return [];
+  return JSON.parse(localStorage.getItem("toplist"));
+};
+
+export const updateToplist = function (name, time) {
+  const newToplist = state.toplist;
+  const newItem = {
+    playerName: name,
+    timeElapsed: time,
+  };
+  newToplist.push(newItem);
+  newToplist.sort((a, b) => a.timeElapsed - b.timeElapsed);
+  state.toplist = newToplist;
 };

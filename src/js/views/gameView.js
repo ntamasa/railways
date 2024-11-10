@@ -1,9 +1,7 @@
-import { getAngle } from "../helper.js";
 import View from "./view.js";
 
 class GameView extends View {
   _parentElement = document.querySelector("main");
-  _errorMessage = "Enter a name!";
 
   _btn = document.querySelector(".start");
 
@@ -32,8 +30,6 @@ class GameView extends View {
 
   getName() {
     const name = this._parentElement.querySelector(".menu__playerName").value;
-
-    if (!name) throw new Error();
 
     this._clearInput();
     return name.toLowerCase();
@@ -71,8 +67,7 @@ class GameView extends View {
     });
   }
 
-  addHandlerTileEvent(handler, isOver, grid) {
-    let isEnded = false;
+  addHandlerTileEvent(handler, grid) {
     const cells = document.querySelectorAll(".tile-item");
 
     const tiles = [
@@ -87,7 +82,6 @@ class GameView extends View {
 
     let newContent = ``;
     const usedCells = [];
-    const enterDirection = {};
 
     cells.forEach((cell) => {
       // if oasis
@@ -104,8 +98,6 @@ class GameView extends View {
           .join()
           .split(".")[0];
         // Get current rotation
-        const angle = getAngle(cell);
-        console.log(angle);
         let newAngle = 0;
 
         const [x, y] = e.target.dataset.coord.split("-").map(Number);
@@ -156,12 +148,8 @@ class GameView extends View {
           rotation: newAngle,
           content: newContent,
         });
-        isEnded = isOver() ? true : isEnded;
-        console.log(isEnded);
       });
     });
-    console.log(isEnded);
-    return isEnded;
   }
 }
 

@@ -10,8 +10,7 @@ export default class View {
    * @author Tamás Nagy
    */
   render(data, render) {
-    if (!data || (Array.isArray(data) && data.length === 0))
-      return this.renderError();
+    if (!data || (Array.isArray(data) && data.length === 0)) return;
 
     this._data = data;
     const markup = this._generateMarkup();
@@ -27,23 +26,7 @@ export default class View {
     this._parentElement.insertAdjacentHTML("afterbegin", markup);
   }
 
-  update(data) {}
-
   _clear() {
     this._parentElement.innerHTML = "";
   }
-
-  renderSpinner() {}
-
-  // TODO error model markup and styling
-  renderError(message = this._errorMessage) {
-    const markup = `<div class="error-model">
-            <p class="error-text">${message}</p>
-            <button class="error-btn">OK</button>
-          </article>`;
-
-    this._parentElement.insertAdjacentHTML("afterbegin", markup);
-  }
-
-  renderMessage() {}
 }
