@@ -1,4 +1,5 @@
 import View from "./view.js";
+import { getIsOver } from "../model.js";
 
 class GameView extends View {
   _parentElement = document.querySelector("main");
@@ -92,6 +93,7 @@ class GameView extends View {
         return;
 
       cell.addEventListener("click", (e) => {
+        if (getIsOver()) return;
         const tileType = cell.children[0].src
           .split("/")
           .slice(-1)

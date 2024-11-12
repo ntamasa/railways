@@ -34,7 +34,7 @@ export const loadData = function (name, difficulty) {
 };
 
 export const updateGrid = function (changedCell) {
-  if (!changedCell) return;
+  if (!changedCell || state.isOver) return;
 
   const n = state.difficulty === "easy" ? 5 : 7;
   const { x, y, rotation, content } = changedCell;
@@ -63,6 +63,7 @@ export const updateGrid = function (changedCell) {
     updateToplist(state.playerName, state.timeElapsed, state.difficulty);
     saveToplist();
     toplistView.render(state.toplist);
+    state.isOver = true;
   }
 };
 
@@ -93,7 +94,6 @@ export const isOver = function () {
   const n = state.difficulty === "easy" ? 5 : 7;
 
   const startTile = state.grid[0][0];
-  const lastTile = startTile;
 
   if (!checkAllFieldsUsed(state)) return;
 
@@ -165,6 +165,10 @@ const saveToplist = function () {
 const getSavedToplist = function () {
   if (!localStorage.getItem("toplist")) return [];
   return JSON.parse(localStorage.getItem("toplist"));
+};
+
+export const getIsOver = function () {
+  return state.isOver;
 };
 
 const updateToplist = function (name, time, difficulty) {

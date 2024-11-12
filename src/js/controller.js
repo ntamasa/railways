@@ -29,7 +29,11 @@ const controlGame = function (newPage) {
   }, 1000);
 
   // 4, Handle click event on a field
-  gameView.addHandlerTileEvent(model.updateGrid, model.state.grid);
+  gameView.addHandlerTileEvent(
+    model.updateGrid,
+    model.state.grid,
+    model.state.isOver
+  );
 
   toplistView.render(model.state.toplist);
 };
