@@ -60,7 +60,7 @@ export const updateGrid = function (changedCell) {
   }
   if (isOver()) {
     stopTimer();
-    updateToplist(state.playerName, state.timeElapsed);
+    updateToplist(state.playerName, state.timeElapsed, state.difficulty);
     saveToplist();
     toplistView.render(state.toplist);
   }
@@ -167,11 +167,12 @@ const getSavedToplist = function () {
   return JSON.parse(localStorage.getItem("toplist"));
 };
 
-const updateToplist = function (name, time) {
+const updateToplist = function (name, time, difficulty) {
   const newToplist = state.toplist;
   const newItem = {
     playerName: name,
     timeElapsed: time,
+    difficulty,
   };
   newToplist.push(newItem);
   newToplist.sort((a, b) => a.timeElapsed - b.timeElapsed);

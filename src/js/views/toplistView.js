@@ -41,6 +41,7 @@ class TopListView extends View {
               ? `0${Math.floor(player.timeElapsed % 60)}`
               : Math.floor(player.timeElapsed % 60)
           }</p>
+          <p class="toplist-difficulty">${player.difficulty}</p>
                   </li>
                   </div>`
         )
