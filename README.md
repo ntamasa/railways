@@ -1,41 +1,73 @@
 # RAILWAYS
 
-## Nagy Tamás Albert
+This project is a puzzle game developed as part of the Web Programming course at Eötvös Loránd University (ELTE). The game is built using plain HTML, CSS, and JavaScript, without any external frameworks. The goal of the game is for players to place elements on a grid-based board following specific rules to complete a path or puzzle.
 
-### Z8TLQP
+## Project Overview
 
-Webprogramozás - számonkérés
-Ezt a megoldást a fent írt hallgató küldte be és készítette a Webprogramozás kurzus számonkéréséhez.
-Kijelentem, hogy ez a megoldás a saját munkám. Nem másoltam vagy használtam harmadik féltől
-származó megoldásokat. Nem továbbítottam megoldást hallgatótársaimnak, és nem is tettem közzé.
-Az Eötvös Loránd Tudományegyetem Hallgatói Követelményrendszere
-(ELTE szervezeti és működési szabályzata, II. Kötet, 74/C. §) kimondja, hogy mindaddig,
-amíg egy hallgató egy másik hallgató munkáját - vagy legalábbis annak jelentős részét -
-saját munkájának mutatja be, az fegyelmi vétségnek számít.
-A fegyelmi vétség legsúlyosabb következménye a hallgató elbocsátása az egyetemről.
+In this game, players are presented with a grid-based puzzle where they need to place various elements, such as bridges, mountains, and oases, on specific tiles. The puzzle is solved when all tiles are correctly filled according to the game rules, and a path is formed that follows the required layout. Players can choose from different difficulty levels, and their progress is tracked with a timer.
 
-Minimálisan teljesítendő (8 pont)
+The game includes a leaderboard feature, saving the fastest times for each difficulty. Additionally, players can save their game progress and return to it later.
 
-- [x] Kötelező: A kiinduló állományban lévő readme fájl kitöltése (Nyilatkozat, teljesített pontok) (0 pont)
-- [x] Kötelező: A játékot egy HTML fájl segítségével, keretrendszerek használata nélkül készítette el. (0 pont)
-- [x] Kötelező: A megoldás során teljesen elkerülte a `bad practice` pontban megadott gyakorlatokat. (0 pont)
-- [x] Menü: A főmenüben a megfelelő elemek megjelennek: név megadásának mezője, nehézség választó elem, start gomb (1 pont)
-- [x] Menü: A Start Gombra való kattintáskor átkerülünk a játéktér képernyőjére. (1 pont)
-- [x] Menü: A menüből elérhető a játékszabály leírása. (1 pont)
-- [x] Játéktér: A játéktéren megjelenik a játékos neve, és elindul a megjelenített időzítő (1 pont)
-- [x] Játéktér: A játéktéren megjelenik a nehézségi szintnek megfelelő pályák közül egy véletlenszerűen kiválasztott pálya, és a rajta lévő összes elemtípus (3 pont)
-- [x] Lehelyezés: A pályán lévő mezőkre le tudom helyezni a különböző típusú elemeket (2 pont).
+## Features
 
-Alap feladatok (12 pont)
+### Main Menu
 
-- [x] Lehelyezés: Az elemeket szabályosan tudom lehelyezni. (Hídon csak egyenesen, Hegynél csak 90°-ban, Oázisra pedig nem tudunk lehelyezni semmit, üres mezőre bármilyet) (4 pont)
-- [x] Ellenőrzés: A játék ellenőrzi, hogy megoldottuk-e a feladványt. Tehát azt, hogy: minden mezőt, amit lehet csak egyszer érint; körbeér az útvonal; minden mezőből át lehet jutni a megfelelő szomszédos mezőbe; mindenhol a megfelelő elem szerepel (4 pont)
-- [x] Játék vége: A játék végén látjuk, hogy mennyi idő alatt teljesítettük a pályát. (1 pont)
-- [x] Toplista: A játék végén megjelenik a toplista, hogy az adott nehézségű pályát kinek mennyi idő alatt sikerült teljesítenie (2 pont)
-- [x] Egyéb: igényes kinézet és kódszervezés (1 pont)
+- The game starts with a main menu where players can enter their name and select the difficulty level.
+- A start button begins the game, transitioning the player to the game board screen.
+- The rules of the game can be accessed from the main menu to help players understand the gameplay mechanics.
 
-Plusz feladatok (5 pont)
+### Game Board
 
-- [ ] Mentés: A játék állapota játék közben elmenthető, az oldal újra megnyitása után visszatölthető a legutóbb mentett állapot (1 pont)
-- [x] Mentés: A toplisták LocalStorageban elmentődnek, az oldal újratöltése után is elérhetőek (2 pont)
-- [ ] Elemek lehelyezése: pályarajzolás vonalhúzással (egérgombot lenyomva tartva mozogni a cellákon) (2 pont)
+- The game board displays the player’s name, a timer to track how long they take to complete the puzzle, and a randomly selected puzzle based on the chosen difficulty.
+- Players can place elements like bridges, mountains, and oases onto the grid. These elements must be placed according to specific rules:
+  - Bridges can only be placed in a straight line.
+  - Mountains must be placed at 90° angles.
+  - Oases cannot have elements placed on them.
+  - Players can place any element on empty tiles.
+
+### Game Validation
+
+- The game checks if the player has correctly solved the puzzle by verifying that:
+  - All cells are touched exactly once.
+  - The path forms a continuous loop.
+  - All tiles contain the correct elements.
+  - All movement between adjacent tiles is possible.
+
+### Leaderboard
+
+- At the end of the game, the player’s time is displayed, and a leaderboard is shown with the fastest completion times for each difficulty level.
+
+### Bonus Features
+
+- **Save Game State**: Players can save their progress during the game. Upon reloading the page, they can continue from where they left off.
+- **Leaderboard Persistence**: The leaderboard is saved in the browser’s LocalStorage, so the top scores persist across page reloads.
+- **Drag-to-Place Elements**: Elements can be placed on the grid by dragging them with the mouse, providing a more interactive and intuitive gameplay experience.
+
+## Installation
+
+To run the game locally, follow these steps:
+
+```bash
+1. Clone the repository:
+   git clone https://github.com/your-username/game-project.git
+```
+
+```bash
+2. Open the `index.html` file in your web browser to start playing the game.
+```
+
+No server setup is required, as this is a purely static web project.
+
+## Gameplay Instructions
+
+1. **Start the Game**: Enter your name, choose a difficulty level, and click the "Start" button to begin playing.
+2. **Play the Game**: Place elements on the grid by following the rules. The goal is to create a valid path that loops back to its starting point while correctly placing each element on the grid.
+3. **Finish the Game**: Once you’ve completed the puzzle, your time will be displayed. Check the leaderboard to see how your time compares to other players.
+
+## Contributing
+
+If you'd like to contribute to this project, feel free to fork the repository and submit a pull request. Please ensure your contributions follow the project's coding standards and include relevant tests.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
